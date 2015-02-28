@@ -448,13 +448,16 @@ var resizePizzas = function(size) {
     return dx;
   }
 
-  // Iterates through pizza elements on the page and changes their widths
+    // Iterates through pizza elements on the page and changes their widths
+    // I created a variable to hold the ranodm container outside the for loop.
+    // Moved dx and newwidth outside the for loop.
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
-    }
+      var pizzaContainer = document.querySelectorAll(".randomPizzaContainer");
+      var dx = determineDx (pizzaContainer, size);
+      var newwidth = (pizzaContainer.offsetWidth + dx) + 'px';
+      for (var i = 0; i < pizzaContainer.length; i++) {
+          pizzaContainer[i].style.width = newwidth;
+      }
   }
 
   changePizzaSizes(size);
@@ -502,10 +505,12 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
+    // Created a variable to hold the top of the screenm so we do not need to query it each time in the for loop.
+  var top = document.body.scrollTop;
   var items = document.querySelectorAll('.mover');
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+      var phase = Math.sin((top / 1250) + (i % 5));
+      items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
